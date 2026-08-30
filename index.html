@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaming Dashboard</title>
+<meta name="description" content="Welcome to the Gaming Dashboard created by pester.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <img class="brand-logo" src="gaming-dashboard-logo.png" alt="Gaming Dashboard">
+    </a>
+    <nav class="nav-links">
+      <a href="#top">Home</a>
+      <a href="https://gdgcll.rf.gd" target="_blank" rel="noopener">GDGCLL</a>
+      <a href="https://gd-gaming-ch.gamer.free/demonlist/" target="_blank" rel="noopener">GGCL</a>
+      <a href="https://gd-gaming.fandom.com/wiki/GD_gaming_Wiki" target="_blank" rel="noopener">Wiki</a>
+      <span class="nav-soon">Forums <em>soon</em></span>
+    </nav>
+  </div>
+</header>
+<div class="accent-bar"></div>
+
+<main id="top">
+  <div class="container">
+
+    <section class="panel intro-panel">
+      <h1>Gaming Dashboard</h1>
+      <p>Welcome to the Gaming Dashboard created by pester.</p>
+    </section>
+
+    <section class="panel tabbed-panel">
+      <span class="panel-tab">Site Links</span>
+      <div class="panel-body">
+
+        <div class="search-box">
+          <input type="text" id="linkSearch" class="search-input" placeholder="Search links…" aria-label="Search links">
+        </div>
+
+        <ul class="link-list" id="linkList">
+
+          <li class="link-entry" data-name="gdgcll">
+            <div class="link-entry-head">
+              <a class="entry-title" href="https://gdgcll.rf.gd" target="_blank" rel="noopener">GDGCLL</a>
+              <span class="entry-status status-live">Live</span>
+            </div>
+            <p class="entry-url">gdgcll.rf.gd</p>
+          </li>
+
+          <li class="link-entry" data-name="ggcl">
+            <div class="link-entry-head">
+              <a class="entry-title" href="https://gd-gaming-ch.gamer.free/demonlist/" target="_blank" rel="noopener">GGCL</a>
+              <span class="entry-status status-live">Live</span>
+            </div>
+            <p class="entry-url">gd-gaming-ch.gamer.free/demonlist/</p>
+          </li>
+
+          <li class="link-entry" data-name="gd gaming wiki fandom">
+            <div class="link-entry-head">
+              <a class="entry-title" href="https://gd-gaming.fandom.com/wiki/GD_gaming_Wiki" target="_blank" rel="noopener">GD Gaming Wiki</a>
+              <span class="entry-status status-live">Live</span>
+            </div>
+            <p class="entry-url">gd-gaming.fandom.com/wiki/GD_gaming_Wiki</p>
+          </li>
+
+          <li class="link-entry muted" data-name="forums">
+            <div class="link-entry-head">
+              <span class="entry-title">Forums</span>
+              <span class="entry-status status-soon">Coming Soon</span>
+            </div>
+          </li>
+
+        </ul>
+
+        <p class="no-results" id="noResults" hidden>No links match your search.</p>
+
+        <p class="more-note">…and more coming soon.</p>
+
+      </div>
+    </section>
+
+    <section class="panel tabbed-panel">
+      <span class="panel-tab">From The Wiki</span>
+      <div class="panel-body">
+        <img class="wiki-logo" src="gd-gaming-wiki-logo.png" alt="GD Gaming Wiki logo">
+        <p>The GD Gaming Wiki tracks the Geometry Dash gaming trend on TikTok, including creators like Clutterfunk Gaming — credited as the account that kicked off the trend back in September 2025. <a href="https://gd-gaming.fandom.com/wiki/GD_gaming_Wiki" target="_blank" rel="noopener">Check this out</a> on the wiki.</p>
+        <p class="preview-label">Preview</p>
+        <div class="wiki-preview-gallery">
+          <div class="wiki-preview-item">
+            <img src="wiki-preview-platinum.png" alt="Platinum Adventure Gaming wiki page">
+            <p class="wiki-caption">Platinum Adventure Gaming</p>
+          </div>
+          <div class="wiki-preview-item">
+            <img src="wiki-preview-demonpark.png" alt="Demon Park Gaming wiki page">
+            <p class="wiki-caption">Demon Park Gaming</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel tabbed-panel">
+      <span class="panel-tab">From GDGCLL</span>
+      <div class="panel-body">
+        <img class="wiki-logo" src="gdgcll-logo.png" alt="GDGCLL logo">
+        <div class="wiki-shot">
+          <img src="silent-toe-screenshot.png" alt="Silent ToE level card on GDGCLL">
+          <p class="wiki-caption">silent toe might be top 1 for 2 month in gdgcll</p>
+        </div>
+        <p><a href="https://gdgcll.rf.gd" target="_blank" rel="noopener">Check out more</a> on GDGCLL.</p>
+        <p class="preview-label">Preview</p>
+        <div class="wiki-preview-gallery">
+          <div class="wiki-preview-item">
+            <img src="gdgcll-staff.png" alt="GDGCLL staff list">
+            <p class="wiki-caption">Staff</p>
+          </div>
+          <div class="wiki-preview-item">
+            <img src="gdgcll-records.png" alt="GDGCLL records leaderboard">
+            <p class="wiki-caption">Records</p>
+          </div>
+          <div class="wiki-preview-item">
+            <img src="gdgcll-admin.png" alt="GDGCLL admin panel">
+            <p class="wiki-caption">Admin Panel</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>created by <strong>pester</strong></p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
