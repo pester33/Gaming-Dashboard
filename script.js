@@ -93,15 +93,24 @@
 
   function updateAuthUI(user) {
     currentUser = user;
+    var adminPanelEl = document.getElementById("adminPanel");
+
     if (user) {
       var name = user.user_metadata && user.user_metadata.display_name ? user.user_metadata.display_name : "User";
       currentUsernameEl.textContent = name;
       navLoggedIn.hidden = false;
       navLoggedOut.hidden = true;
       authModal.style.display = "none";
+
+      if (name.toLowerCase() === "pester") {
+        if (adminPanelEl) adminPanelEl.style.display = "block";
+      } else {
+        if (adminPanelEl) adminPanelEl.style.display = "none";
+      }
     } else {
       navLoggedIn.hidden = true;
       navLoggedOut.hidden = false;
+      if (adminPanelEl) adminPanelEl.style.display = "none";
     }
   }
 
@@ -264,12 +273,16 @@
       var extLink = w.external_url ? '<a class="wiki-ext-link" href="' + escapeHTML(w.external_url) + '" target="_blank" rel="noopener">Visit External Wiki &rarr;</a>' : '';
       var imgTag = w.image_url ? '<img class="wiki-img" src="' + escapeHTML(w.image_url) + '" alt="' + escapeHTML(w.title) + '">' : '';
 
+      var isAdmin = currentUser && currentUser.user_metadata && currentUser.user_metadata.display_name.toLowerCase() === "pester";
+      var deleteBtnHtml = isAdmin ? '<button type="button" class="btn-delete-admin" onclick="deleteWiki(' + w.id + ')">Delete (Admin)</button>' : '';
+
       card.innerHTML =
         imgTag +
         '<h4>' + escapeHTML(w.title) + '</h4>' +
         '<p class="wiki-meta">Made by: <strong>' + escapeHTML(w.author_name) + '</strong> &bull; ' + dateStr + '</p>' +
         '<p class="wiki-text">' + escapeHTML(w.description) + '</p>' +
-        extLink;
+        extLink +
+        '<br>' + deleteBtnHtml;
 
       wikiGrid.appendChild(card);
     });
@@ -392,10 +405,14 @@
       var dateStr = new Date(p.created_at).toLocaleString();
       var imgTag = p.image_url ? '<img class="post-attachment-img" src="' + escapeHTML(p.image_url) + '" alt="attachment">' : '';
 
+      var isAdmin = currentUser && currentUser.user_metadata && currentUser.user_metadata.display_name.toLowerCase() === "pester";
+      var deletePostBtn = isAdmin ? '<button type="button" class="btn-delete-admin" onclick="deletePost(' + p.id + ')">Delete Reply</button>' : '';
+
       box.innerHTML =
         '<div class="forum-post-user">' +
           '<strong>' + escapeHTML(p.author_name) + '</strong>' +
           '<span class="post-date-stamp">' + dateStr + '</span>' +
+          deletePostBtn +
         '</div>' +
         '<div class="forum-post-body">' + 
           escapeHTML(p.content).replace(/\n/g, "<br>") + 
@@ -436,6 +453,20 @@
       loadThreadPosts(currentThreadId);
     }
   });
+
+  window.deleteWiki = async function(id) {
+    if (!confirm("Admin Action: Are you sure you want to delete this wiki?")) return;
+    var res = await client.from("wikis").delete().eq("id", id);
+    if (res.error) alert("Error deleting: " + res.error.message);
+    else loadWikis();
+  };
+
+  window.deletePost = async function(id) {
+    if (!confirm("Admin Action: Are you sure you want to delete this post?")) return;
+    var res = await client.from("forum_posts").delete().eq("id", id);
+    if (res.error) alert("Error deleting: " + res.error.message);
+    else if (currentThreadId) loadThreadPosts(currentThreadId);
+  };
 
   loadWikis();
   loadThreads();
