@@ -133,6 +133,9 @@
             <label for="wikiTitle">Wiki Title</label>
             <input type="text" id="wikiTitle" required placeholder="e.g. Clutterfunk Gaming">
 
+            <label for="wikiImage">Upload Image (optional)</label>
+            <input type="file" id="wikiImage" accept="image/*">
+
             <label for="wikiUrl">External Link (optional)</label>
             <input type="url" id="wikiUrl" placeholder="https://gd-gaming.fandom.com/wiki/...">
 
@@ -163,6 +166,9 @@
           <form id="threadForm">
             <label for="threadTitle">Thread Title</label>
             <input type="text" id="threadTitle" required placeholder="What do you want to talk about?">
+
+            <label for="threadImage">Attach Image (optional)</label>
+            <input type="file" id="threadImage" accept="image/*">
 
             <label for="threadFirstPost">Initial Post</label>
             <textarea id="threadFirstPost" rows="4" required placeholder="Write your message..."></textarea>
@@ -197,6 +203,8 @@
           <div class="reply-container" id="replyContainer">
             <h4>Leave a Reply</h4>
             <form id="replyForm">
+              <label for="replyImage">Attach Image (optional)</label>
+              <input type="file" id="replyImage" accept="image/*">
               <textarea id="replyContent" rows="3" required placeholder="Write your reply..."></textarea>
               <button type="submit" class="btn-action">Submit Reply</button>
             </form>
