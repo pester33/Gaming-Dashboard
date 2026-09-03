@@ -368,15 +368,14 @@ main { padding: 18px 0 50px; }
 
 .auth-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 99999;
 }
 .auth-modal {
   position: relative;
@@ -384,24 +383,32 @@ main { padding: 18px 0 50px; }
   border: 1px solid var(--panel-border);
   width: 90%;
   max-width: 380px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 30px 20px 20px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 .close-modal {
-  position: absolute;
-  top: 4px;
-  right: 8px;
-  background: none;
-  border: none;
-  font-size: 1.6rem;
-  line-height: 1;
-  cursor: pointer;
-  color: #767676;
-  z-index: 1001;
-  padding: 4px 8px;
+  position: absolute !important;
+  top: 4px !important;
+  right: 6px !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #e0e0e0 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  font-size: 1.2rem !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  color: #111111 !important;
+  z-index: 999999 !important;
+  pointer-events: auto !important;
 }
 .close-modal:hover {
-  color: #111111;
+  background: #ff4d4d !important;
+  color: #ffffff !important;
+  border-color: #ff4d4d !important;
 }
 .auth-tabs {
   display: flex;
