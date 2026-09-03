@@ -1,29 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gaming Dashboard</title>
-<meta name="description" content="Welcome to the Gaming Dashboard created by pester.">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaming Dashboard</title>
+  <meta name="description" content="Welcome to the Gaming Dashboard created by pester.">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="navbar">
   <div class="nav-inner">
     <a class="brand" href="#top">
-      <img class="brand-logo" src="gaming-dashboard-logo.png" alt="Gaming Dashboard">
+      <img class="brand-logo" src="gaming-dashboard-logo.png" alt="Gaming Dashboard" onerror="this.style.display='none'">
+      <span class="brand-fallback-text">Gaming Dashboard</span>
     </a>
     <nav class="nav-links">
       <a href="#top">Home</a>
       <a href="https://gdgcll.rf.gd" target="_blank" rel="noopener">GDGCLL</a>
       <a href="https://gd-gaming-ch.gamer.free/demonlist/" target="_blank" rel="noopener">GGCL</a>
-      <a href="https://gd-gaming.fandom.com/wiki/GD_gaming_Wiki" target="_blank" rel="noopener">Wiki</a>
-      <span class="nav-soon">Forums <em>soon</em></span>
+      <a href="#wikis">Wikis</a>
+      <a href="#forums">Forums</a>
+      
+      <span class="nav-divider">|</span>
+
+      <span id="navLoggedOut">
+        <button type="button" class="btn-link" id="showLoginBtn">Log In</button>
+        <button type="button" class="btn-link register-btn" id="showRegisterBtn">Register</button>
+      </span>
+
+      <span id="navLoggedIn" hidden>
+        <span class="nav-user">User: <strong id="currentUsername">Guest</strong></span>
+        <button type="button" class="btn-link" id="logoutBtn">Log Out</button>
+      </span>
     </nav>
   </div>
 </header>
 <div class="accent-bar"></div>
+
+<div class="auth-modal-overlay" id="authModal" hidden>
+  <div class="auth-modal">
+    <button type="button" class="close-modal" id="closeAuthModal">&times;</button>
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab-btn active" id="tabLoginBtn">Log In</button>
+      <button type="button" class="auth-tab-btn" id="tabRegisterBtn">Register</button>
+    </div>
+
+    <form id="loginForm" class="auth-form-box">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" required placeholder="name@domain.com">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" required placeholder="••••••••">
+      <p class="auth-error" id="loginError" hidden></p>
+      <button type="submit" class="btn-action">Sign In</button>
+    </form>
+
+    <form id="registerForm" class="auth-form-box" hidden>
+      <label for="regUsername">Display Name / Username</label>
+      <input type="text" id="regUsername" required maxlength="30" placeholder="e.g. pester">
+      <label for="regEmail">Email</label>
+      <input type="email" id="regEmail" required placeholder="name@domain.com">
+      <label for="regPassword">Password</label>
+      <input type="password" id="regPassword" minlength="6" required placeholder="At least 6 characters">
+      <p class="auth-error" id="regError" hidden></p>
+      <button type="submit" class="btn-action">Create Account</button>
+    </form>
+  </div>
+</div>
 
 <main id="top">
   <div class="container">
@@ -36,13 +79,11 @@
     <section class="panel tabbed-panel">
       <span class="panel-tab">Site Links</span>
       <div class="panel-body">
-
         <div class="search-box">
           <input type="text" id="linkSearch" class="search-input" placeholder="Search links…" aria-label="Search links">
         </div>
 
         <ul class="link-list" id="linkList">
-
           <li class="link-entry" data-name="gdgcll">
             <div class="link-entry-head">
               <a class="entry-title" href="https://gdgcll.rf.gd" target="_blank" rel="noopener">GDGCLL</a>
@@ -59,44 +100,108 @@
             <p class="entry-url">gd-gaming-ch.gamer.free/demonlist/</p>
           </li>
 
-          <li class="link-entry" data-name="gd gaming wiki fandom">
+          <li class="link-entry" data-name="community wikis">
             <div class="link-entry-head">
-              <a class="entry-title" href="https://gd-gaming.fandom.com/wiki/GD_gaming_Wiki" target="_blank" rel="noopener">GD Gaming Wiki</a>
+              <a class="entry-title" href="#wikis">Community Wikis</a>
               <span class="entry-status status-live">Live</span>
             </div>
-            <p class="entry-url">gd-gaming.fandom.com/wiki/GD_gaming_Wiki</p>
+            <p class="entry-url">#wikis</p>
           </li>
 
-          <li class="link-entry muted" data-name="forums">
+          <li class="link-entry" data-name="forums discussion board">
             <div class="link-entry-head">
-              <span class="entry-title">Forums</span>
-              <span class="entry-status status-soon">Coming Soon</span>
+              <a class="entry-title" href="#forums">Forums</a>
+              <span class="entry-status status-live">Live</span>
             </div>
+            <p class="entry-url">#forums</p>
           </li>
-
         </ul>
 
         <p class="no-results" id="noResults" hidden>No links match your search.</p>
-
-        <p class="more-note">…and more coming soon.</p>
-
       </div>
     </section>
 
-    <section class="panel tabbed-panel">
-      <span class="panel-tab">From The Wiki</span>
+    <section class="panel tabbed-panel" id="wikis">
+      <span class="panel-tab">Community Wikis</span>
       <div class="panel-body">
-        <img class="wiki-logo" src="gd-gaming-wiki-logo.png" alt="GD Gaming Wiki logo">
-        <p>The GD Gaming Wiki tracks the Geometry Dash gaming trend on TikTok, including creators like Clutterfunk Gaming — credited as the account that kicked off the trend back in September 2025. <a href="https://gd-gaming.fandom.com/wiki/GD_gaming_Wiki" target="_blank" rel="noopener">Check this out</a> on the wiki.</p>
-        <p class="preview-label">Preview</p>
-        <div class="wiki-preview-gallery">
-          <div class="wiki-preview-item">
-            <img src="wiki-preview-platinum.png" alt="Platinum Adventure Gaming wiki page">
-            <p class="wiki-caption">Platinum Adventure Gaming</p>
-          </div>
-          <div class="wiki-preview-item">
-            <img src="wiki-preview-demonpark.png" alt="Demon Park Gaming wiki page">
-            <p class="wiki-caption">Demon Park Gaming</p>
+        <div class="panel-actions">
+          <p class="panel-lead-text">Browse pages submitted by users or publish your own.</p>
+          <button type="button" class="btn-action" id="toggleWikiFormBtn">+ Create Your Wiki</button>
+        </div>
+
+        <div class="form-container" id="wikiFormBox" hidden>
+          <h3>Create a New Wiki Page</h3>
+          <form id="wikiForm">
+            <label for="wikiTitle">Wiki Title</label>
+            <input type="text" id="wikiTitle" required placeholder="e.g. Clutterfunk Gaming">
+
+            <label for="wikiUrl">External Link (optional)</label>
+            <input type="url" id="wikiUrl" placeholder="https://gd-gaming.fandom.com/wiki/...">
+
+            <label for="wikiDescription">Description / Overview</label>
+            <textarea id="wikiDescription" rows="4" required placeholder="Details about this wiki page..."></textarea>
+
+            <button type="submit" class="btn-action">Publish Wiki</button>
+            <button type="button" class="btn-cancel" id="cancelWikiBtn">Cancel</button>
+          </form>
+        </div>
+
+        <div class="wiki-grid" id="wikiGrid">
+          <p class="status-msg">Loading wikis...</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel tabbed-panel" id="forums">
+      <span class="panel-tab">Forums</span>
+      <div class="panel-body">
+        <div class="panel-actions">
+          <p class="panel-lead-text">Discuss Geometry Dash, levels, updates, and community records.</p>
+          <button type="button" class="btn-action" id="toggleThreadFormBtn">+ New Thread</button>
+        </div>
+
+        <div class="form-container" id="threadFormBox" hidden>
+          <h3>Start a New Discussion</h3>
+          <form id="threadForm">
+            <label for="threadTitle">Thread Title</label>
+            <input type="text" id="threadTitle" required placeholder="What do you want to talk about?">
+
+            <label for="threadFirstPost">Initial Post</label>
+            <textarea id="threadFirstPost" rows="4" required placeholder="Write your message..."></textarea>
+
+            <button type="submit" class="btn-action">Publish Thread</button>
+            <button type="button" class="btn-cancel" id="cancelThreadBtn">Cancel</button>
+          </form>
+        </div>
+
+        <div id="forumThreadListContainer">
+          <table class="forum-table" id="forumTable">
+            <thead>
+              <tr>
+                <th>Thread Title</th>
+                <th>Author</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody id="threadTableBody">
+              <tr>
+                <td colspan="3" class="status-msg">Loading discussions...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="thread-viewer" id="threadViewer" hidden>
+          <button type="button" class="btn-back" id="backToThreadsBtn">&larr; Back to all threads</button>
+          <h2 id="viewThreadTitle">Thread Title</h2>
+          <div class="post-thread-flow" id="threadPostsContainer"></div>
+
+          <div class="reply-container" id="replyContainer">
+            <h4>Leave a Reply</h4>
+            <form id="replyForm">
+              <textarea id="replyContent" rows="3" required placeholder="Write your reply..."></textarea>
+              <button type="submit" class="btn-action">Submit Reply</button>
+            </form>
           </div>
         </div>
       </div>
@@ -105,27 +210,10 @@
     <section class="panel tabbed-panel">
       <span class="panel-tab">From GDGCLL</span>
       <div class="panel-body">
-        <img class="wiki-logo" src="gdgcll-logo.png" alt="GDGCLL logo">
         <div class="wiki-shot">
-          <img src="silent-toe-screenshot.png" alt="Silent ToE level card on GDGCLL">
           <p class="wiki-caption">silent toe might be top 1 for 2 month in gdgcll</p>
         </div>
         <p><a href="https://gdgcll.rf.gd" target="_blank" rel="noopener">Check out more</a> on GDGCLL.</p>
-        <p class="preview-label">Preview</p>
-        <div class="wiki-preview-gallery">
-          <div class="wiki-preview-item">
-            <img src="gdgcll-staff.png" alt="GDGCLL staff list">
-            <p class="wiki-caption">Staff</p>
-          </div>
-          <div class="wiki-preview-item">
-            <img src="gdgcll-records.png" alt="GDGCLL records leaderboard">
-            <p class="wiki-caption">Records</p>
-          </div>
-          <div class="wiki-preview-item">
-            <img src="gdgcll-admin.png" alt="GDGCLL admin panel">
-            <p class="wiki-caption">Admin Panel</p>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -138,6 +226,7 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
 </body>
 </html>
