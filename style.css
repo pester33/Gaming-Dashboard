@@ -184,6 +184,7 @@ main { padding: 18px 0 50px; }
 }
 .form-container input, .form-container textarea,
 .reply-container textarea,
+.reply-container input,
 .auth-form-box input {
   width: 100%;
   padding: 6px 8px;
@@ -191,6 +192,12 @@ main { padding: 18px 0 50px; }
   font-family: inherit;
   font-size: 0.9rem;
   background: #fff;
+}
+.form-container input[type="file"],
+.reply-container input[type="file"] {
+  border: 1px dashed var(--panel-border);
+  background: #fafafa;
+  padding: 8px;
 }
 .form-container button, .reply-container button { margin-top: 10px; }
 
@@ -249,6 +256,14 @@ main { padding: 18px 0 50px; }
   background: #ffffff;
   border: 1px solid var(--panel-border);
   padding: 12px;
+}
+.wiki-img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border: 1px solid var(--panel-border);
+  margin-bottom: 8px;
+  display: block;
 }
 .wiki-card h4 {
   font-size: 1rem;
@@ -333,6 +348,13 @@ main { padding: 18px 0 50px; }
   flex: 1;
   font-size: 0.92rem;
   line-height: 1.5;
+}
+.post-attachment-img {
+  max-width: 100%;
+  max-height: 350px;
+  margin-top: 8px;
+  border: 1px solid var(--panel-border);
+  display: block;
 }
 .post-date-stamp {
   display: block;
