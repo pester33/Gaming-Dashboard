@@ -38,9 +38,9 @@
 </header>
 <div class="accent-bar"></div>
 
-<div class="auth-modal-overlay" id="authModal" hidden>
+<div class="auth-modal-overlay" id="authModal" style="display: none;">
   <div class="auth-modal">
-    <button type="button" class="close-modal" id="closeAuthModal" onclick="document.getElementById('authModal').hidden = true;">&times;</button>
+    <button type="button" class="close-modal" id="closeAuthModal" onclick="document.getElementById('authModal').style.display='none';">&times;</button>
     <div class="auth-tabs">
       <button type="button" class="auth-tab-btn active" id="tabLoginBtn">Log In</button>
       <button type="button" class="auth-tab-btn" id="tabRegisterBtn">Register</button>
