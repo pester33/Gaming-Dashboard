@@ -80,7 +80,7 @@
       currentUsernameEl.textContent = name;
       navLoggedIn.hidden = false;
       navLoggedOut.hidden = true;
-      authModal.hidden = true;
+      authModal.style.display = "none";
     } else {
       navLoggedIn.hidden = true;
       navLoggedOut.hidden = false;
@@ -102,7 +102,7 @@
   }
 
   function openAuthModal(mode) {
-    authModal.hidden = false;
+    authModal.style.display = "flex";
     loginError.hidden = true;
     regError.hidden = true;
     if (mode === "register") {
@@ -122,12 +122,12 @@
   showRegisterBtn.addEventListener("click", function () { openAuthModal("register"); });
   
   closeAuthModal.addEventListener("click", function () { 
-    authModal.hidden = true; 
+    authModal.style.display = "none"; 
   });
   
   authModal.addEventListener("click", function (e) {
     if (e.target === authModal) {
-      authModal.hidden = true;
+      authModal.style.display = "none";
     }
   });
 
@@ -146,7 +146,7 @@
       loginError.textContent = res.error.message;
       loginError.hidden = false;
     } else {
-      authModal.hidden = true;
+      authModal.style.display = "none";
       loginForm.reset();
     }
   });
@@ -172,7 +172,7 @@
       regError.hidden = false;
     } else {
       alert("Registration successful! You are now logged in.");
-      authModal.hidden = true;
+      authModal.style.display = "none";
       registerForm.reset();
     }
   });
