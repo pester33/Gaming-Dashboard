@@ -58,6 +58,24 @@
     });
   }
 
+  async function uploadImageFile(fileInput) {
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+      return null;
+    }
+    var file = fileInput.files[0];
+    var cleanFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "");
+    var filePath = Date.now() + "_" + cleanFileName;
+
+    var uploadRes = await client.storage.from("uploads").upload(filePath, file);
+    if (uploadRes.error) {
+      alert("Failed to upload image: " + uploadRes.error.message);
+      return null;
+    }
+
+    var urlData = client.storage.from("uploads").getPublicUrl(filePath);
+    return urlData.data.publicUrl;
+  }
+
   if (linkInput && linkList) {
     var items = Array.prototype.slice.call(linkList.querySelectorAll(".link-entry"));
     linkInput.addEventListener("input", function () {
@@ -202,12 +220,16 @@
     var title = document.getElementById("wikiTitle").value.trim();
     var url = document.getElementById("wikiUrl").value.trim();
     var desc = document.getElementById("wikiDescription").value.trim();
+    var imgInput = document.getElementById("wikiImage");
     var author = currentUser.user_metadata.display_name || "User";
+
+    var uploadedImgUrl = await uploadImageFile(imgInput);
 
     var res = await client.from("wikis").insert([{
       title: title,
       external_url: url || null,
       description: desc,
+      image_url: uploadedImgUrl,
       user_id: currentUser.id,
       author_name: author
     }]);
@@ -240,8 +262,10 @@
       card.className = "wiki-card";
       var dateStr = new Date(w.created_at).toLocaleDateString();
       var extLink = w.external_url ? '<a class="wiki-ext-link" href="' + escapeHTML(w.external_url) + '" target="_blank" rel="noopener">Visit External Wiki &rarr;</a>' : '';
+      var imgTag = w.image_url ? '<img class="wiki-img" src="' + escapeHTML(w.image_url) + '" alt="' + escapeHTML(w.title) + '">' : '';
 
       card.innerHTML =
+        imgTag +
         '<h4>' + escapeHTML(w.title) + '</h4>' +
         '<p class="wiki-meta">Made by: <strong>' + escapeHTML(w.author_name) + '</strong> &bull; ' + dateStr + '</p>' +
         '<p class="wiki-text">' + escapeHTML(w.description) + '</p>' +
@@ -271,7 +295,10 @@
 
     var title = document.getElementById("threadTitle").value.trim();
     var firstPost = document.getElementById("threadFirstPost").value.trim();
+    var imgInput = document.getElementById("threadImage");
     var author = currentUser.user_metadata.display_name || "User";
+
+    var uploadedImgUrl = await uploadImageFile(imgInput);
 
     var threadRes = await client.from("forum_threads").insert([{
       title: title,
@@ -289,6 +316,7 @@
     await client.from("forum_posts").insert([{
       thread_id: newThread.id,
       content: firstPost,
+      image_url: uploadedImgUrl,
       user_id: currentUser.id,
       author_name: author
     }]);
@@ -362,13 +390,17 @@
       var box = document.createElement("div");
       box.className = "forum-post-box";
       var dateStr = new Date(p.created_at).toLocaleString();
+      var imgTag = p.image_url ? '<img class="post-attachment-img" src="' + escapeHTML(p.image_url) + '" alt="attachment">' : '';
 
       box.innerHTML =
         '<div class="forum-post-user">' +
           '<strong>' + escapeHTML(p.author_name) + '</strong>' +
           '<span class="post-date-stamp">' + dateStr + '</span>' +
         '</div>' +
-        '<div class="forum-post-body">' + escapeHTML(p.content).replace(/\n/g, "<br>") + '</div>';
+        '<div class="forum-post-body">' + 
+          escapeHTML(p.content).replace(/\n/g, "<br>") + 
+          imgTag + 
+        '</div>';
 
       threadPostsContainer.appendChild(box);
     });
@@ -383,13 +415,16 @@
     }
 
     var content = document.getElementById("replyContent").value.trim();
+    var imgInput = document.getElementById("replyImage");
     if (!content || !currentThreadId) return;
 
     var author = currentUser.user_metadata.display_name || "User";
+    var uploadedImgUrl = await uploadImageFile(imgInput);
 
     var res = await client.from("forum_posts").insert([{
       thread_id: currentThreadId,
       content: content,
+      image_url: uploadedImgUrl,
       user_id: currentUser.id,
       author_name: author
     }]);
@@ -397,7 +432,7 @@
     if (res.error) {
       alert("Error sending reply: " + res.error.message);
     } else {
-      document.getElementById("replyContent").value = "";
+      replyForm.reset();
       loadThreadPosts(currentThreadId);
     }
   });
