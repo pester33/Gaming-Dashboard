@@ -76,7 +76,7 @@
   function updateAuthUI(user) {
     currentUser = user;
     if (user) {
-      var name = user.user_metadata && user.user_metadata.display_name ? user.user_metadata.display_name : user.email.split("@")[0];
+      var name = user.user_metadata && user.user_metadata.display_name ? user.user_metadata.display_name : "User";
       currentUsernameEl.textContent = name;
       navLoggedIn.hidden = false;
       navLoggedOut.hidden = true;
@@ -120,7 +120,16 @@
 
   showLoginBtn.addEventListener("click", function () { openAuthModal("login"); });
   showRegisterBtn.addEventListener("click", function () { openAuthModal("register"); });
-  closeAuthModal.addEventListener("click", function () { authModal.hidden = true; });
+  
+  closeAuthModal.addEventListener("click", function () { 
+    authModal.hidden = true; 
+  });
+  
+  authModal.addEventListener("click", function (e) {
+    if (e.target === authModal) {
+      authModal.hidden = true;
+    }
+  });
 
   tabLoginBtn.addEventListener("click", function () { openAuthModal("login"); });
   tabRegisterBtn.addEventListener("click", function () { openAuthModal("register"); });
@@ -128,8 +137,9 @@
   loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
     loginError.hidden = true;
-    var email = document.getElementById("loginEmail").value.trim();
+    var username = document.getElementById("loginUsername").value.trim().toLowerCase();
     var password = document.getElementById("loginPassword").value;
+    var email = username + "@gddash.local"; 
 
     var res = await client.auth.signInWithPassword({ email: email, password: password });
     if (res.error) {
@@ -144,15 +154,16 @@
   registerForm.addEventListener("submit", async function (e) {
     e.preventDefault();
     regError.hidden = true;
-    var username = document.getElementById("regUsername").value.trim();
-    var email = document.getElementById("regEmail").value.trim();
+    var rawUsername = document.getElementById("regUsername").value.trim();
+    var username = rawUsername.toLowerCase();
     var password = document.getElementById("regPassword").value;
+    var email = username + "@gddash.local";
 
     var res = await client.auth.signUp({
       email: email,
       password: password,
       options: {
-        data: { display_name: username }
+        data: { display_name: rawUsername }
       }
     });
 
@@ -191,7 +202,7 @@
     var title = document.getElementById("wikiTitle").value.trim();
     var url = document.getElementById("wikiUrl").value.trim();
     var desc = document.getElementById("wikiDescription").value.trim();
-    var author = currentUser.user_metadata.display_name || currentUser.email.split("@")[0];
+    var author = currentUser.user_metadata.display_name || "User";
 
     var res = await client.from("wikis").insert([{
       title: title,
@@ -260,7 +271,7 @@
 
     var title = document.getElementById("threadTitle").value.trim();
     var firstPost = document.getElementById("threadFirstPost").value.trim();
-    var author = currentUser.user_metadata.display_name || currentUser.email.split("@")[0];
+    var author = currentUser.user_metadata.display_name || "User";
 
     var threadRes = await client.from("forum_threads").insert([{
       title: title,
@@ -374,7 +385,7 @@
     var content = document.getElementById("replyContent").value.trim();
     if (!content || !currentThreadId) return;
 
-    var author = currentUser.user_metadata.display_name || currentUser.email.split("@")[0];
+    var author = currentUser.user_metadata.display_name || "User";
 
     var res = await client.from("forum_posts").insert([{
       thread_id: currentThreadId,
